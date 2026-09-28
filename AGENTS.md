@@ -37,6 +37,7 @@ Outlook (COM) → Email Collector → ThreadCollator → Supermemory API
 | `AppSettings.cs` | Configuration (API key, server URL, container tag, batch size) |
 | `appsettings.json` | Config template |
 | `OutlookIngest.csproj` | .NET 10.0 project file |
+| `refs/` | Local COM interop DLL copies (Outlook PIA + Office core `office.dll`), referenced via HintPath, not tracked in git |
 
 ## Important Details
 

@@ -23,8 +23,11 @@ var inboxEmails = inboxItems
     .Select(item => new EmailRecord
     {
         Subject = item.Subject ?? "(no subject)",
-        From = item.SenderName ?? item.SenderEmailAddress ?? item.To,
-        To = item.To,
+        // COM interop can return null for these properties (e.g. meeting confirmations,
+        // auto-replies with unset To/From headers); null metadata values are rejected by
+        // the Supermemory batch endpoint schema, so coalesce at the source.
+        From = item.SenderName ?? item.SenderEmailAddress ?? item.To ?? "",
+        To = item.To ?? "",
         Body = item.Body ?? "",
         ReceivedTime = item.ReceivedTime,
         IsRead = false,
@@ -39,8 +42,11 @@ var sentEmails = sentItems
     .Select(item => new EmailRecord
     {
         Subject = item.Subject ?? "(no subject)",
-        From = item.SenderName ?? item.SenderEmailAddress ?? item.To,
-        To = item.To,
+        // COM interop can return null for these properties (e.g. meeting confirmations,
+        // auto-replies with unset To/From headers); null metadata values are rejected by
+        // the Supermemory batch endpoint schema, so coalesce at the source.
+        From = item.SenderName ?? item.SenderEmailAddress ?? item.To ?? "",
+        To = item.To ?? "",
         Body = item.Body ?? "",
         ReceivedTime = item.ReceivedTime,
         IsRead = true,

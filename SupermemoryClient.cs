@@ -45,14 +45,16 @@ public class SupermemoryClient
                 content = _converter.Convert(email),
                 customId = $"email_{email.ReceivedTime:yyyy-MM-ddTHH_mm_ss}_{Guid.NewGuid()}",
                 documentDate = email.ReceivedTime.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                // Values must be non-null: the batch endpoint schema rejects null
+                // metadata values (invalid_type: received null), failing the whole batch.
                 metadata = new Dictionary<string, object>
                 {
-                    { "subject", email.Subject },
-                    { "from", email.From },
-                    { "to", email.To },
+                    { "subject", email.Subject ?? "" },
+                    { "from", email.From ?? "" },
+                    { "to", email.To ?? "" },
                     { "hasAttachments", email.HasAttachments },
-                    { "folder", email.Folder },
-                    { "threadId", email.ThreadId }
+                    { "folder", email.Folder ?? "" },
+                    { "threadId", email.ThreadId ?? "" }
                 }
             });
 
